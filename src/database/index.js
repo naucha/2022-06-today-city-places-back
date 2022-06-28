@@ -1,5 +1,5 @@
 require("dotenv").config();
-const debug = require("debug")("dishweek:database:connection");
+const debug = require("debug")("road-trip:database:connection");
 const chalk = require("chalk");
 const mongoose = require("mongoose");
 
