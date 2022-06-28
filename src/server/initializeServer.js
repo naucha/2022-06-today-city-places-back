@@ -1,5 +1,5 @@
 require("dotenv").config();
-const debug = require("debug")("dishweek:server:initializeServer");
+const debug = require("debug")("road-trip:server:initializeServer");
 const chalk = require("chalk");
 const app = require(".");
 
