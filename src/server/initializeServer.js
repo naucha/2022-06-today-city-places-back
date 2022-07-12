@@ -1,5 +1,5 @@
 require("dotenv").config();
-const debug = require("debug")("road-trip:server:initializeServer");
+const debug = require("debug")("today-city-places:server:initializeServer");
 const chalk = require("chalk");
 const app = require(".");
 

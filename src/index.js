@@ -1,5 +1,5 @@
 require("dotenv").config();
-const debug = require("debug")("road-trip:root");
+const debug = require("debug")("today-city-places:root");
 
 const chalk = require("chalk");
 const connectDB = require("./database");
