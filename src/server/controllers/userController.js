@@ -4,9 +4,9 @@ const bcrypt = require("bcrypt");
 const User = require("../../database/models/User");
 
 const registerUser = async (req, res, next) => {
-  const { name, username, password } = req.body;
+  const { username, password, emailadress } = req.body;
 
-  const user = await User.findOne({ username });
+  const user = await User.findOne({ username, emailadress });
 
   if (user) {
     const userError = new Error();
@@ -19,11 +19,11 @@ const registerUser = async (req, res, next) => {
 
   try {
     const encryptedPassword = await bcrypt.hash(password, 10);
-    const newUser = { name, username, password: encryptedPassword };
+    const newUser = { username, password: encryptedPassword, emailadress };
 
     await User.create(newUser);
 
-    res.status(201).json({ username });
+    res.status(201).json({ username, emailadress });
   } catch (error) {
     next(error);
   }
