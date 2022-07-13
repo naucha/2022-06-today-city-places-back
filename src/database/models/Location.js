@@ -21,6 +21,6 @@ const LocationSchema = new Schema({
   },
 });
 
-const Location = model("Location", LocationSchema, "location");
+const Location = model("Location", LocationSchema, "locations");
 
 module.exports = Location;
