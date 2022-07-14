@@ -1,7 +1,8 @@
 require("dotenv").config();
 const bcrypt = require("bcrypt");
-
+const jsonwebtoken = require("jsonwebtoken");
 const User = require("../../database/models/User");
+const { customError } = require("../../utils/customError");
 
 const registerUser = async (req, res, next) => {
   const { username, password, emailadress } = req.body;
@@ -29,4 +30,40 @@ const registerUser = async (req, res, next) => {
   }
 };
 
-module.exports = registerUser;
+const loginUser = async (req, res, next) => {
+  const { emailadress, password } = req.body;
+  const user = await User.findOne({ emailadress });
+
+  if (!user) {
+    const error = customError(
+      400,
+      "Email Incorrect",
+      "User o Password not valid"
+    );
+    next(error);
+  } else {
+    const userData = {
+      firstname: user.firstname,
+      lastname: user.lastname,
+      username: user.username,
+      emailadress: user.emailadress,
+    };
+
+    const rightPassword = await bcrypt.compare(password, user.password);
+
+    if (!rightPassword) {
+      const error = customError(
+        400,
+        "Password Incorrect",
+        "Email or Password are wrong"
+      );
+      next(error);
+    } else {
+      const token = jsonwebtoken.sign(userData, process.env.SECRET);
+
+      res.status(200).json({ token });
+    }
+  }
+};
+
+module.exports = { registerUser, loginUser };
