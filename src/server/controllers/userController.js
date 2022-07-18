@@ -59,7 +59,7 @@ const loginUser = async (req, res, next) => {
       );
       next(error);
     } else {
-      const token = jsonwebtoken.sign(userData, process.env.SECRET);
+      const token = jsonwebtoken.sign(userData, process.env.JWT_SECRET);
 
       res.status(200).json({ token });
     }
