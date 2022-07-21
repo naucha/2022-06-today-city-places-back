@@ -1,6 +1,10 @@
 const { Schema, model } = require("mongoose");
 
 const LocationSchema = new Schema({
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
   properties: {
     name: {
       type: String,
