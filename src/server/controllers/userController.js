@@ -32,6 +32,7 @@ const registerUser = async (req, res, next) => {
 
 const loginUser = async (req, res, next) => {
   const { emailadress, password } = req.body;
+
   const user = await User.findOne({ emailadress });
 
   if (!user) {
@@ -43,12 +44,11 @@ const loginUser = async (req, res, next) => {
     next(error);
   } else {
     const userData = {
-      firstname: user.firstname,
-      lastname: user.lastname,
       username: user.username,
       emailadress: user.emailadress,
+      myplaces: user.myplaces,
+      _id: user.id,
     };
-
     const rightPassword = await bcrypt.compare(password, user.password);
 
     if (!rightPassword) {

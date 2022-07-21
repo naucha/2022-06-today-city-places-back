@@ -5,6 +5,6 @@ const { loadLocations } = require("../controllers/locationController");
 
 const locationRouter = express.Router();
 
-locationRouter.get("/list", loadLocations);
+locationRouter.get("", loadLocations);
 
 module.exports = locationRouter;
