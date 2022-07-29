@@ -5,9 +5,10 @@ const User = require("../../database/models/User");
 const { customError } = require("../../utils/customError");
 
 const registerUser = async (req, res, next) => {
-  const { username, password, emailadress } = req.body;
+  const { username, password, emailadress, firstname, lastname, myplaces } =
+    req.body;
 
-  const user = await User.findOne({ username, emailadress });
+  const user = await User.findOne({ emailadress });
 
   if (user) {
     const userError = new Error();
@@ -20,7 +21,14 @@ const registerUser = async (req, res, next) => {
 
   try {
     const encryptedPassword = await bcrypt.hash(password, 10);
-    const newUser = { username, password: encryptedPassword, emailadress };
+    const newUser = {
+      username,
+      password: encryptedPassword,
+      emailadress,
+      firstname,
+      lastname,
+      myplaces,
+    };
 
     await User.create(newUser);
 
@@ -43,11 +51,19 @@ const loginUser = async (req, res, next) => {
     );
     next(error);
   } else {
+    const { username, myplaces, _id: id } = user;
+
+    const tokenData = {
+      password,
+      emailadress,
+      id,
+    };
+
     const userData = {
-      username: user.username,
-      emailadress: user.emailadress,
-      myplaces: user.myplaces,
-      _id: user.id,
+      username,
+      emailadress,
+      myplaces,
+      id,
     };
     const rightPassword = await bcrypt.compare(password, user.password);
 
@@ -59,9 +75,9 @@ const loginUser = async (req, res, next) => {
       );
       next(error);
     } else {
-      const token = jsonwebtoken.sign(userData, process.env.JWT_SECRET);
+      const token = jsonwebtoken.sign(tokenData, process.env.JWT_SECRET);
 
-      res.status(200).json({ token });
+      res.status(200).json({ token, userData });
     }
   }
 };
