@@ -3,8 +3,8 @@ const corsOptions = {
     "http://localhost:3000",
     "http://localhost:3001",
     "http://localhost:3002",
-    "https://today-city-places.netlify.app",
-    "https://today-city-places.netlify.app/",
+    "https://2022-06-today-city-places.vercel.app",
+    "https://2022-06-today-city-places.vercel.app/",
   ],
 };
 
